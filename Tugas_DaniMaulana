@@ -1,0 +1,99 @@
+import Model.ResponseModel;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+
+public class TM01 extends JFrame {
+
+    private JButton submit;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextField textField4;
+    private JButton Jkata;
+    private JButton closeButton;
+    private JButton TM01_22090144_MDANIMAULANA;
+    private JLabel Jmsg;
+    private JLabel Jsts;
+    private JLabel Jcmnt;
+    private JPanel TM01;
+
+    public TM01(JFrame frame) throws IOException {
+        setContentPane(TM01);
+        setTitle("TM0122090144_MDANIMAULANAButton");
+        setSize(400, 350);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setVisible(true);
+
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == submit) {
+                    try {
+                        URL url = new URL("https://harber.mimoapps.xyz/api/getaccess.php");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("GET");
+                        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String inputLine;
+                        StringBuffer response = new StringBuffer();
+                        while ((inputLine = in.readLine()) != null) {
+                            response.append(inputLine);
+                        }
+                        in.close();
+                        JSONArray jsonArray = new JSONArray(response.toString());
+                        ArrayList<ResponseModel> parsedList = new ArrayList<>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            ResponseModel resModel = new ResponseModel();
+                            JSONObject myJSONObject = jsonArray.getJSONObject(i);
+                            resModel.setMessage(myJSONObject.getString("message"));
+                            resModel.setStatus(myJSONObject.getString("status"));
+                            resModel.setCommand(myJSONObject.getString("comment"));
+                            parsedList.add(resModel);
+
+                        }
+                        for (int index = 0; index < parsedList.size(); index++) {
+                            Jmsg.setText(parsedList.get(index).getMessage());
+                            Jsts.setText(parsedList.get(index).getStatus());
+                            Jcmnt.setText(parsedList.get(index).getComment());
+
+                            Jkata.setText(String.valueOf(parsedList.get(index).getMessage().length()));
+                        }
+
+
+                    } catch (IOException ex) {
+                        System.out.println("Data Tidak Terbaca");
+
+                    } catch (JSONException ex) {
+                        System.out.println("Data Tidak Valid");
+                    }
+                }
+
+            }
+        });
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+    }
+
+    public static void main(String[] args) throws IOException {
+        JFrame frame = new JFrame("test");
+        TM01 tm01 = new TM01(frame);
+        tm01.setVisible(true);
+    }
+}
+
+
+
+
