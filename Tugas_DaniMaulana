@@ -3,7 +3,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,8 +30,8 @@ public class TM01 extends JFrame {
 
     public TM01(JFrame frame)  {
         setContentPane(TM01);
-        setTitle("TM0122090144_MDANIMAULANAButton");
-        setSize(450, 500);
+        setTitle("TM01_22090144_MDANIMAULANAButton");
+        setSize(450, 474);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
 
@@ -56,14 +56,14 @@ public class TM01 extends JFrame {
                             JSONObject myJSONObject = jsonArray.getJSONObject(i);
                             responseModel.setMessage(myJSONObject.getString("message"));
                             responseModel.setStatus(myJSONObject.getString("status"));
-                            responseModel.setCommand(myJSONObject.getString("comment"));
+                            responseModel.setCom(myJSONObject.getString("comment"));
                             parsedList.add(responseModel);
 
                         }
                         for (int index = 0; index < parsedList.size(); index++) {
                             Jmsg.setText(parsedList.get(index).getMessage());
                             Jsts.setText(parsedList.get(index).getStatus());
-                            Jcmnt.setText(parsedList.get(index).getComment());
+                            Jcmnt.setText(parsedList.get(index).getCom());
 
                             Jkata.setText(String.valueOf(parsedList.get(index).getMessage().length()));
                         }
