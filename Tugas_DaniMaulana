@@ -3,6 +3,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,9 +17,9 @@ import java.util.ArrayList;
 public class TM01 extends JFrame {
 
     private JButton submit;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
+    private JTextField jmsg;
+    private JTextField jsts;
+    private JTextField jcmnt;
     private JButton Jkata;
     private JButton closeButton;
     private JButton TM01_22090144_MDANIMAULANA;
@@ -27,11 +28,11 @@ public class TM01 extends JFrame {
     private JLabel Jcmnt;
     private JPanel TM01;
 
-    public TM01(JFrame frame) throws IOException {
+    public TM01(JFrame frame)  {
         setContentPane(TM01);
         setTitle("TM0122090144_MDANIMAULANAButton");
-        setSize(400, 350);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setSize(450, 500);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
 
         submit.addActionListener(new ActionListener() {
@@ -41,7 +42,6 @@ public class TM01 extends JFrame {
                     try {
                         URL url = new URL("https://harber.mimoapps.xyz/api/getaccess.php");
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("GET");
                         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                         String inputLine;
                         StringBuffer response = new StringBuffer();
@@ -52,12 +52,12 @@ public class TM01 extends JFrame {
                         JSONArray jsonArray = new JSONArray(response.toString());
                         ArrayList<ResponseModel> parsedList = new ArrayList<>();
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            ResponseModel resModel = new ResponseModel();
+                            ResponseModel responseModel = new ResponseModel();
                             JSONObject myJSONObject = jsonArray.getJSONObject(i);
-                            resModel.setMessage(myJSONObject.getString("message"));
-                            resModel.setStatus(myJSONObject.getString("status"));
-                            resModel.setCommand(myJSONObject.getString("comment"));
-                            parsedList.add(resModel);
+                            responseModel.setMessage(myJSONObject.getString("message"));
+                            responseModel.setStatus(myJSONObject.getString("status"));
+                            responseModel.setCommand(myJSONObject.getString("comment"));
+                            parsedList.add(responseModel);
 
                         }
                         for (int index = 0; index < parsedList.size(); index++) {
@@ -82,12 +82,12 @@ public class TM01 extends JFrame {
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                frame.dispose();
             }
         });
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)  {
         JFrame frame = new JFrame("test");
         TM01 tm01 = new TM01(frame);
         tm01.setVisible(true);
